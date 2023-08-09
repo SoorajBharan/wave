@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/bharan/computation/github/DG/1D/wave/build",
+  "command": "/usr/bin/c++ -DDEBUG -isystem /home/bharan/computation/dealii/dealii-master/install/include -isystem /home/bharan/computation/dealii/dealii-master/install/include/deal.II/bundled -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -isystem /home/bharan/computation/metis/include -isystem /home/bharan/computation/petsc/petsc-3.14.5/include -isystem /home/bharan/computation/petsc/petsc-3.14.5/arch-linux-c-opt/include -isystem /home/bharan/computation/trilinos/install/include -isystem /home/bharan/computation/hdf5/install/include -isystem /home/bharan/computation/p4est/install/FAST/include -pedantic -Wall -Wextra -Wmissing-braces -Woverloaded-virtual -Wpointer-arith -Wsign-compare -Wsuggest-override -Wswitch -Wsynth -Wwrite-strings -Wno-placement-new -Wno-deprecated-declarations -Wno-literal-suffix -Wno-psabi -Wno-class-memaccess -Wno-parentheses -Wno-unused-local-typedefs -fopenmp-simd -std=c++17 -march=native -Wno-array-bounds -pthread -DFE_EVAL_FACTORY_DEGREE_MAX=15 -O0 -ggdb -Wa,--compress-debug-sections -Og -o CMakeFiles/wave_problem.dir/wave_problem.cc.o -c /home/bharan/computation/github/DG/1D/wave/wave_problem.cc",
+  "file": "/home/bharan/computation/github/DG/1D/wave/wave_problem.cc",
+  "output": "CMakeFiles/wave_problem.dir/wave_problem.cc.o"
+},
+{
+  "directory": "/home/bharan/computation/github/DG/1D/wave/build",
+  "command": "/usr/bin/c++ -DDEBUG -isystem /home/bharan/computation/dealii/dealii-master/install/include -isystem /home/bharan/computation/dealii/dealii-master/install/include/deal.II/bundled -isystem /usr/lib/x86_64-linux-gnu/openmpi/include -isystem /usr/lib/x86_64-linux-gnu/openmpi/include/openmpi -isystem /home/bharan/computation/metis/include -isystem /home/bharan/computation/petsc/petsc-3.14.5/include -isystem /home/bharan/computation/petsc/petsc-3.14.5/arch-linux-c-opt/include -isystem /home/bharan/computation/trilinos/install/include -isystem /home/bharan/computation/hdf5/install/include -isystem /home/bharan/computation/p4est/install/FAST/include -pedantic -Wall -Wextra -Wmissing-braces -Woverloaded-virtual -Wpointer-arith -Wsign-compare -Wsuggest-override -Wswitch -Wsynth -Wwrite-strings -Wno-placement-new -Wno-deprecated-declarations -Wno-literal-suffix -Wno-psabi -Wno-class-memaccess -Wno-parentheses -Wno-unused-local-typedefs -fopenmp-simd -std=c++17 -march=native -Wno-array-bounds -pthread -DFE_EVAL_FACTORY_DEGREE_MAX=15 -O0 -ggdb -Wa,--compress-debug-sections -Og -o CMakeFiles/wave_problem.dir/main.cc.o -c /home/bharan/computation/github/DG/1D/wave/main.cc",
+  "file": "/home/bharan/computation/github/DG/1D/wave/main.cc",
+  "output": "CMakeFiles/wave_problem.dir/main.cc.o"
+}
+]

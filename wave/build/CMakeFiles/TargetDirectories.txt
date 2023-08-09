@@ -1,0 +1,10 @@
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/wave_problem.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/run.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/debug.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/release.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/runclean.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/distclean.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/strip_comments.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/info.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/edit_cache.dir
+/home/bharan/computation/github/DG/1D/wave/build/CMakeFiles/rebuild_cache.dir
