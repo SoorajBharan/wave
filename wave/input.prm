@@ -1,0 +1,5 @@
+#Listing of parameters
+
+subsection Geometry
+	set refinement_level = 4
+end

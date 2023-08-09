@@ -1,0 +1,21 @@
+#Listing of parameters
+
+subsection geometry
+	set refinement level = 4
+
+	set left end = -0.5
+
+	set right end = 0.5
+end
+
+subsection finite element
+
+	set order of polynomial = 6
+
+end
+
+subsection solution methods
+
+	set integration method = RK_THIRD_ORDER
+	set cfl number = 1
+end

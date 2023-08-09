@@ -14,6 +14,8 @@
 #include <deal.II/base/quadrature_lib.h>
 #include <deal.II/base/function.h> //The class function is used for defining the boundary condition and rhs
 #include <deal.II/base/discrete_time.h>
+#include <deal.II/base/parameter_handler.h>
+#include <deal.II/base/patterns.h>
 
 #include <deal.II/lac/vector.h>
 #include <deal.II/lac/dynamic_sparsity_pattern.h>
@@ -57,11 +59,80 @@ class InitialValuesQ : public Function<dim>
 			return std::exp(-64.0*x*x);
 		}
 };
+
+template<int dim>
+class parameterReader
+{
+	public:
+		parameterReader(ParameterHandler &);
+		void read_parameters(const std::string &);
+	private:
+		void declare_parameters();
+		ParameterHandler &prm;
+};
+
+template<int dim>
+parameterReader<dim>::parameterReader(ParameterHandler &paramHandler)
+:prm(paramHandler)
+{}
+
+template<int dim>
+void parameterReader<dim>::read_parameters(const std::string &parameter_file)
+{
+	declare_parameters();
+	prm.parse_input(parameter_file);
+}
+
+template<int dim>
+void parameterReader<dim>::declare_parameters()
+{
+	prm.enter_subsection("geometry");
+	{
+		prm.declare_entry("refinement level",
+		    			"6",
+		    			Patterns::Integer(0,10),
+		    			"Refinement level of the mesh");
+		prm.declare_entry("left end",
+		    			"-0.5",
+		    			Patterns::Double(),
+					"Coordinates of the left edge");
+		prm.declare_entry("right end",
+		    			"0.5",
+		    			Patterns::Double(0),
+					"Coordinates of right edge");
+	}
+	prm.leave_subsection();
+
+	prm.enter_subsection("finite element");
+	{
+
+	prm.declare_entry("order of polynomial",
+				"2",
+				Patterns::Integer(0,10),
+		   "polynomial degree of DG elements ");
+	}
+	prm.leave_subsection();
+
+	prm.enter_subsection("solution methods");
+	{
+		prm.declare_entry("integration method",
+		    			"RK_THIRD_ORDER",
+		    			Patterns::Anything(),
+		    			"Intergration method used");
+		prm.declare_entry("cfl number",
+		    			"1.0",
+		    			Patterns::Double(),
+		    			"CFL Number");
+	}
+	prm.leave_subsection();
+}
+
+
 template <int dim>
 class waveProblem
 {
 public:
-	waveProblem();
+	waveProblem(ParameterHandler &,int);
 	void run();
 private:
 	void make_grid();
@@ -74,6 +145,9 @@ private:
 	Vector<double> right_hand_side(const double,const Vector<double> &)const;
 	double error_calc();
 	double CFL_calc();
+
+
+	
 
 	Triangulation<dim> triangulation;
 	FE_DGQ<dim> fe;
@@ -99,23 +173,38 @@ private:
 	Vector<double>	system_rhs;
 
 	int no_dofs;
+	double CFL;
 
 	//const QGauss<dim>	quadrature;
 	//const QGauss<dim - 1> quadrature_face;
 	double	time, time_step, stop_time, initial_time;
-	int refinement_level = 6;
+	int refinement_level;
+	ParameterHandler &prm;
 };
 
 template <int dim>
-waveProblem<dim>::waveProblem()
-	:fe(4) // Order of the polynomial
+waveProblem<dim>::waveProblem(ParameterHandler &param,int order)
+	:prm(param),
+	fe(order) // Order of the polynomial
 	,dof_handler(triangulation)
-{}
+{
+	prm.enter_subsection("geometry");
+	refinement_level=prm.get_integer("refinement level");
+	prm.leave_subsection();
+	prm.enter_subsection("solution methods");
+	CFL=prm.get_double("cfl number");
+	prm.leave_subsection();
+}
 
 template <int dim>
 void waveProblem<dim>::make_grid()
 {
-	GridGenerator::hyper_cube(triangulation, -0.5 ,0.5);
+	double right,left;
+	prm.enter_subsection("geometry");
+	left=prm.get_double("left end");
+	right=prm.get_double("right end");
+	prm.leave_subsection();
+	GridGenerator::hyper_cube(triangulation, left ,right);
 	triangulation.refine_global(refinement_level);
 
 }
@@ -267,7 +356,13 @@ void waveProblem<dim>::solve()
 	sum_matrix.add(1.0,system_diff_matrix);
 	sum_matrix.add(-1.0,system_flux_matrix);
 	right_hand_side(0,solution);
-	explicit_method(TimeStepping::RK_THIRD_ORDER);
+
+	std::string solution_methods;
+	prm.enter_subsection("solution methods");
+	if(prm.get("integration method")=="RK_THIRD_ORDER")
+	{
+		explicit_method(TimeStepping::RK_THIRD_ORDER);
+	}
 	
 }
 template<int dim>
@@ -354,10 +449,11 @@ template<int dim>
 double waveProblem<dim>::CFL_calc()
 {
 	double h=0,
-		CFL=1,
 		delta_t,
 		u=1,
 		factor=1;
+	
+	
 	int poly_order = fe.get_degree();
 	factor/=3;
 	for(const auto cell:triangulation.active_cell_iterators())
