@@ -8,6 +8,8 @@ int main()
 	wave::parameterReader<1> param(prm);
 	param.read_parameters("input.prm");
 
+	std::system("clear");
+	// std::cout<<"\033[H\033[2J\033[3J";
 	prm.print_parameters(std::cout,dealii::ParameterHandler::Text);
 	
 	int order_of_poly;
